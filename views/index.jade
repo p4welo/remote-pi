@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    div(style="margin-top: 100px; text-align: center")
+        div.row
+            button.up.btn.btn-lg.btn-default(style="margin-bottom: 5px")
+                i.glyphicon.glyphicon-arrow-up
+        div.row
+            button.left.btn.btn-lg.btn-default(style="margin-right: 5px")
+                i.glyphicon.glyphicon-arrow-left
+            button.down.btn.btn-lg.btn-default(style="margin-right: 5px")
+                i.glyphicon.glyphicon-arrow-down
+            button.right.btn.btn-lg.btn-default
+                i.glyphicon.glyphicon-arrow-right

@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+var debug = require('debug')('nodetest1');
+var app = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ');// + server.address().port);
+});
+
+var io = require('socket.io').listen(server);
+
+io.set('log level', 1); //turn off debug
+io.sockets.on('connection', function (socket) {
+    socket.on('keydown', function (dir) {
+        switch (dir) {
+            case 'up':
+                console.log("MOVING: FORWARD")
+//                tank.moveForward();
+                break;
+            case 'down':
+//                tank.moveBackward();
+                console.log("MOVING: BACKWARD")
+                break;
+            case 'left':
+                console.log("MOVING: LEFT")
+//                tank.turnLeft();
+                break;
+            case 'right':
+//                tank.turnRight();
+                console.log("MOVING: RIGHT")
+                break;
+        }
+    });
+    socket.on('keyup', function (dir) {
+        switch (dir) {
+            case 'up':
+                console.log("STOP: FORWARD")
+//                tank.moveForward();
+                break;
+            case 'down':
+//                tank.moveBackward();
+                console.log("STOP: BACKWARD")
+                break;
+            case 'left':
+                console.log("STOP: LEFT")
+//                tank.turnLeft();
+                break;
+            case 'right':
+//                tank.turnRight();
+                console.log("STOP: RIGHT")
+                break;
+        }
+    });
+});
