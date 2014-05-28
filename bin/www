@@ -10,44 +10,55 @@ var gpio = require('pi-gpio'),
     _rightMotorFront = 15,
     _rightMotorBack = 16;
 
+var movingForward = false,
+    movingBackward = false;
+
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ');// + server.address().port);
+var server = app.listen(app.get('port'), function () {
+    debug('Express server listening on port ');// + server.address().port);
 });
 
-tank.initPins = function(){
+tank.initPins = function () {
 //    async.parallel([
-        gpio.open(_leftMotorFront, "output");
-        gpio.open(_leftMotorBack, "output");
-        gpio.open(_rightMotorFront, "output");
-        gpio.open(_rightMotorBack, "output");
+    gpio.open(_leftMotorFront, "output");
+    gpio.open(_leftMotorBack, "output");
+    gpio.open(_rightMotorFront, "output");
+    gpio.open(_rightMotorBack, "output");
 //    ]);
 };
 
-tank.moveForward = function(){
+tank.moveForward = function () {
+    async.parallel([
+        gpio.write(_leftMotorBack, 0),
+        gpio.write(_rightMotorBack, 0)
+    ]);
     async.parallel([
         gpio.write(_leftMotorFront, 1),
         gpio.write(_rightMotorFront, 1)
     ]);
 };
 
-tank.moveBackward = function(){
+tank.moveBackward = function () {
+    async.parallel([
+        gpio.write(_leftMotorFront, 0),
+        gpio.write(_rightMotorFront, 0)
+    ]);
     async.parallel([
         gpio.write(_leftMotorBack, 1),
         gpio.write(_rightMotorBack, 1)
     ]);
 };
 
-tank.turnLeft = function(){
+tank.turnLeft = function () {
     gpio.write(_rightMotorFront, 1);
 };
 
-tank.turnRight = function(){
+tank.turnRight = function () {
     gpio.write(_leftMotorFront, 1);
 };
 
-tank.stopAllMotors = function(){
+tank.stopAllMotors = function () {
     async.parallel([
         gpio.write(_leftMotorFront, 0),
         gpio.write(_leftMotorBack, 0),
@@ -64,67 +75,25 @@ io.sockets.on('connection', function (socket) {
         switch (dir) {
             case 'up':
                 console.log("MOVING: FORWARD");
-                gpio.open(_leftMotorFront, "output", function(err) {        // Open pin 16 for output
-                    gpio.write(_leftMotorFront, 1, function() {            // Set pin 16 high (1)
-                        gpio.close(_leftMotorFront);                        // Close pin 16
-                    });
-                });
-//                tank.moveForward();
+                tank.moveForward();
                 break;
             case 'down':
-//                tank.moveBackward();
                 console.log("MOVING: BACKWARD");
-                gpio.open(_leftMotorBack, "output", function(err) {        // Open pin 16 for output
-                    gpio.write(_leftMotorBack, 1, function() {            // Set pin 16 high (1)
-                        gpio.close(_leftMotorBack);                        // Close pin 16
-                    });
-                });
+                tank.moveBackward();
                 break;
             case 'left':
                 console.log("MOVING: LEFT")
 //                tank.turnLeft();
                 break;
             case 'right':
-//                tank.turnRight();
                 console.log("MOVING: RIGHT")
+//                tank.turnRight();
                 break;
         }
     });
     socket.on('keyup', function (dir) {
-        switch (dir) {
-            case 'up':
-                console.log("STOP: FORWARD");
-                gpio.open(_leftMotorFront, "output", function(err) {        // Open pin 16 for output
-                    gpio.write(_leftMotorFront, 0, function() {            // Set pin 16 high (1)
-                        gpio.close(_leftMotorFront);                        // Close pin 16
-                    });
-                });
-//                tank.moveForward();
-                break;
-            case 'down':
-//                tank.moveBackward();
-                console.log("STOP: BACKWARD");
-                gpio.open(_leftMotorBack, "output", function(err) {        // Open pin 16 for output
-                    gpio.write(_leftMotorBack, 0, function() {            // Set pin 16 high (1)
-                        gpio.close(_leftMotorBack);                        // Close pin 16
-                    });
-                });
-                break;
-            case 'left':
-                console.log("STOP: LEFT")
-//                tank.turnLeft();
-                break;
-            case 'right':
-//                tank.turnRight();
-                console.log("STOP: RIGHT")
-                break;
-        }
+        tank.stopAllMotors();
     });
 });
-//gpio.open(11, "output", function(err) {        // Open pin 16 for output
-//    gpio.write(11, 1, function() {            // Set pin 16 high (1)
-//        gpio.close(11);                        // Close pin 16
-//    });
-//});
 
-//tank.initPins();
+tank.initPins();
