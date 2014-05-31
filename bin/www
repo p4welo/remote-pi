@@ -5,13 +5,10 @@ var app = require('../app');
 var gpio = require('pi-gpio'),
     async = require('async'),
     tank = {},
-    _leftMotorFront = 11,
-    _leftMotorBack = 12,
-    _rightMotorFront = 15,
-    _rightMotorBack = 16;
-
-var movingForward = false,
-    movingBackward = false;
+    _leftMotorFront = 12,
+    _leftMotorBack = 11,
+    _rightMotorFront = 16,
+    _rightMotorBack = 15;
 
 app.set('port', process.env.PORT || 3000);
 
@@ -31,9 +28,7 @@ tank.initPins = function () {
 tank.moveForward = function () {
     async.parallel([
         gpio.write(_leftMotorBack, 0),
-        gpio.write(_rightMotorBack, 0)
-    ]);
-    async.parallel([
+        gpio.write(_rightMotorBack, 0),
         gpio.write(_leftMotorFront, 1),
         gpio.write(_rightMotorFront, 1)
     ]);
@@ -42,20 +37,28 @@ tank.moveForward = function () {
 tank.moveBackward = function () {
     async.parallel([
         gpio.write(_leftMotorFront, 0),
-        gpio.write(_rightMotorFront, 0)
-    ]);
-    async.parallel([
+        gpio.write(_rightMotorFront, 0),
         gpio.write(_leftMotorBack, 1),
         gpio.write(_rightMotorBack, 1)
     ]);
 };
 
 tank.turnLeft = function () {
-    gpio.write(_rightMotorFront, 1);
+    async.parallel([
+        gpio.write(_leftMotorFront, 0),
+        gpio.write(_rightMotorFront, 1),
+        gpio.write(_leftMotorBack, 1),
+        gpio.write(_rightMotorBack, 0)
+    ]);
 };
 
 tank.turnRight = function () {
-    gpio.write(_leftMotorFront, 1);
+    async.parallel([
+        gpio.write(_leftMotorFront, 1),
+        gpio.write(_rightMotorFront, 0),
+        gpio.write(_leftMotorBack, 0),
+        gpio.write(_rightMotorBack, 1)
+    ]);
 };
 
 tank.stopAllMotors = function () {
@@ -83,11 +86,11 @@ io.sockets.on('connection', function (socket) {
                 break;
             case 'left':
                 console.log("MOVING: LEFT")
-//                tank.turnLeft();
+                tank.turnLeft();
                 break;
             case 'right':
                 console.log("MOVING: RIGHT")
-//                tank.turnRight();
+                tank.turnRight();
                 break;
         }
     });
