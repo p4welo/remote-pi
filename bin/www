@@ -18,12 +18,10 @@ var server = app.listen(app.get('port'), function () {
 });
 
 tank.initPins = function () {
-//    async.parallel([
     gpio.open(_leftMotorFront, "output");
     gpio.open(_leftMotorBack, "output");
     gpio.open(_rightMotorFront, "output");
     gpio.open(_rightMotorBack, "output");
-//    ]);
 };
 
 tank.moveForward = function () {
@@ -71,12 +69,6 @@ tank.stopAllMotors = function () {
     ]);
 };
 
-var readyState = function() {
-    gpio.open(diodePin, "output", function () {
-        gpio.write(diodePin, 1);
-    });
-}
-
 var io = require('socket.io').listen(server);
 
 io.set('log level', 1); //turn off debug
@@ -107,4 +99,3 @@ io.sockets.on('connection', function (socket) {
 });
 
 tank.initPins();
-readyState();
