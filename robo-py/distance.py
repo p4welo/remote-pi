@@ -21,25 +21,28 @@ GPIO.output(GPIO_TRIGGER, False)
 
 # Allow module to settle
 time.sleep(0.5)
+i = 0
 
-# Send 10us pulse to trigger
-GPIO.output(GPIO_TRIGGER, True)
-time.sleep(0.00001)
-GPIO.output(GPIO_TRIGGER, False)
-start = time.time()
-
-while GPIO.input(GPIO_ECHO) == 0:
+while i < 50:
+    # Send 10us pulse to trigger
+    GPIO.output(GPIO_TRIGGER, True)
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
     start = time.time()
 
-while GPIO.input(GPIO_ECHO) == 1:
-    stop = time.time()
+    while GPIO.input(GPIO_ECHO) == 0:
+        start = time.time()
 
-elapsed = stop - start
-distance = elapsed * 34300
+    while GPIO.input(GPIO_ECHO) == 1:
+        stop = time.time()
 
-distance = distance / 2
+    elapsed = stop - start
+    distance = elapsed * 34300
 
-print "Odleglosc : %.1f cm" % distance
+    distance = distance / 2
+
+    print "Odleglosc : %.1f cm" % distance
+    i = i + 1
 
 # Reset GPIO settings
 GPIO.cleanup()
