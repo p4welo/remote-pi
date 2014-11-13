@@ -1,7 +1,6 @@
 import time
 import RPi.GPIO as GPIO
 
-
 # Use BCM GPIO references
 # instead of physical pin numbers
 GPIO.setmode(GPIO.BCM)
@@ -43,6 +42,7 @@ while i < 50:
 
     print "Odleglosc : %.1f cm" % distance
     i = i + 1
+    time.sleep(1)
 
 # Reset GPIO settings
 GPIO.cleanup()
