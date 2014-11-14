@@ -11,6 +11,8 @@ GPIO_X1 = 18
 GPIO_Y0 = 22
 GPIO_Y1 = 23
 
+ANIMATION_SPEED = 0.15
+
 GPIO.setup(GPIO_X0, GPIO.OUT)
 GPIO.setup(GPIO_X1, GPIO.OUT)
 GPIO.setup(GPIO_Y0, GPIO.OUT)
@@ -22,7 +24,7 @@ def light(x0, x1, y0, y1):
     GPIO.output(GPIO_X1, x1 == 1)
     GPIO.output(GPIO_Y0, y0 == 1)
     GPIO.output(GPIO_Y1, y1 == 1)
-    time.sleep(0.2)
+    time.sleep(ANIMATION_SPEED)
 
 def carousel():
     print "KRECIOLEK!"
