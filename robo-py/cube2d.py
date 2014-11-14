@@ -34,7 +34,7 @@ def carousel():
         light(1, 0, 1, 1)
         light(0, 0, 1, 0)
         light(0, 1, 1, 1)
-        iterator += 1
+        # iterator += 1
 
 light(0, 0, 0, 0)
 carousel()
