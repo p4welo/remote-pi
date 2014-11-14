@@ -4,6 +4,7 @@ from time import sleep
 
 import RPi.GPIO as GPIO
 
+GPIO.setwarnings(False)
 
 class HD44780:
     def __init__(self, pin_rs=7, pin_e=8, pins_db=[25, 24, 23, 18]):
