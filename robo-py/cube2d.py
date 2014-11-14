@@ -2,7 +2,7 @@ import time
 
 import RPi.GPIO as GPIO
 
-
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 # Define GPIO to use on Pi
@@ -10,8 +10,6 @@ GPIO_X0 = 17
 GPIO_X1 = 18
 GPIO_Y0 = 22
 GPIO_Y1 = 23
-
-print "Pomiar odleglosci"
 
 GPIO.setup(GPIO_X0, GPIO.OUT)
 GPIO.setup(GPIO_X1, GPIO.OUT)
