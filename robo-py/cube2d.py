@@ -1,5 +1,7 @@
 import time
+
 import RPi.GPIO as GPIO
+
 
 GPIO.setmode(GPIO.BCM)
 
@@ -17,34 +19,24 @@ GPIO.setup(GPIO_Y0, GPIO.OUT)
 GPIO.setup(GPIO_Y1, GPIO.OUT)
 
 
-def reset():
-    GPIO.output(GPIO_X0, False)
-    GPIO.output(GPIO_X1, False)
-    GPIO.output(GPIO_Y0, False)
-    GPIO.output(GPIO_Y1, False)
-    time.sleep(0.1)
+def light(x0, x1, y0, y1):
+    GPIO.output(GPIO_X0, x0 == 1)
+    GPIO.output(GPIO_X1, x1 == 1)
+    GPIO.output(GPIO_Y0, y0 == 1)
+    GPIO.output(GPIO_Y1, y1 == 1)
+    time.sleep(5)
 
-reset()
+
+light(0, 0, 0, 0)
 iterator = 0
 
 while iterator < 20:
-
     # stan 1
-    GPIO.output(GPIO_X0, False)
-    GPIO.output(GPIO_X1, False)
-    GPIO.output(GPIO_Y0, True)
-    GPIO.output(GPIO_Y1, True)
-    print "WSZYSTKIE ZAPALONE!"
-    time.sleep(5)
-
-    reset()
+    print "GORA!"
+    light(0, 0, 0, 1)
 
     # stan 2
-    GPIO.output(GPIO_X0, False)
-    GPIO.output(GPIO_X1, True)
-    GPIO.output(GPIO_Y0, False)
-    GPIO.output(GPIO_Y1, False)
-    print "PRAWA STRONA"
-    time.sleep(5)
+    print "WSZYSTKIE ZGASZONE!"
+    light(0, 0, 0, 0)
 
-    iterator+=1
+    iterator += 1
