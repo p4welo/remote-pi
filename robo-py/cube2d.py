@@ -24,24 +24,17 @@ def light(x0, x1, y0, y1):
     GPIO.output(GPIO_X1, x1 == 1)
     GPIO.output(GPIO_Y0, y0 == 1)
     GPIO.output(GPIO_Y1, y1 == 1)
-    time.sleep(5)
+    time.sleep(0.5)
 
+def carousel():
+    print "KRECIOLEK!"
+    iterator = 0
+    while iterator < 20:
+        light(0, 0, 0, 1)
+        light(1, 0, 1, 1)
+        light(0, 0, 1, 0)
+        light(0, 1, 1, 1)
+        iterator += 1
 
 light(0, 0, 0, 0)
-iterator = 0
-
-while iterator < 20:
-    print "GORA!"
-    light(0, 0, 0, 1)
-
-    print "PRAWA!"
-    light(1, 0, 1, 1)
-
-    print "DOL!"
-    light(0, 0, 1, 0)
-
-    print "LEWA STRONA!"
-    light(0, 1, 1, 1)
-
-
-    iterator += 1
+carousel()
