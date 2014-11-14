@@ -31,12 +31,17 @@ light(0, 0, 0, 0)
 iterator = 0
 
 while iterator < 20:
-    # stan 1
     print "GORA!"
     light(0, 0, 0, 1)
 
-    # stan 2
-    print "WSZYSTKIE ZGASZONE!"
-    light(0, 0, 0, 0)
+    print "PRAWA!"
+    light(1, 0, 1, 1)
+
+    print "DOL!"
+    light(0, 0, 1, 0)
+
+    print "LEWA STRONA!"
+    light(0, 1, 1, 1)
+
 
     iterator += 1
