@@ -24,7 +24,7 @@ def light(x0, x1, y0, y1):
     GPIO.output(GPIO_X1, x1 == 1)
     GPIO.output(GPIO_Y0, y0 == 1)
     GPIO.output(GPIO_Y1, y1 == 1)
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 def carousel():
     print "KRECIOLEK!"
