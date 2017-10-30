@@ -18,16 +18,19 @@ function toggle() {
 //     });
 //   }, INTERVAL);
 // });
-gpio.open(PIN2, 'input', function () {
-  setInterval(function () {
-    gpio.read(PIN, function (err, value1) {
-      if (err) throw err;
-      gpio.read(PIN2, function (err, value2) {
+
+gpio.open(PIN, 'input', function () {
+  gpio.open(PIN2, 'input', function () {
+    setInterval(function () {
+      gpio.read(PIN, function (err, value1) {
         if (err) throw err;
-        console.log(value1, '-', value2);
-      });
-    })
-  }, 100);
+        gpio.read(PIN2, function (err, value2) {
+          if (err) throw err;
+          console.log(value1, '-', value2);
+        });
+      })
+    }, 100);
+  });
 });
 
 console.log('===> START <===');
