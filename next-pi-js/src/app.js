@@ -1,7 +1,7 @@
 const gpio = require('pi-gpio');
 
-const PIN = 8;
-const PIN2 = 10;
+const PIN = 11;
+const PIN2 = 12;
 const INTERVAL = 500;
 
 var state = 0;
@@ -20,9 +20,12 @@ function toggle() {
 // });
 gpio.open(PIN2, 'input', function () {
   setInterval(function () {
-    gpio.read(PIN2, function (err, value) {
+    gpio.read(PIN, function (err, value1) {
       if (err) throw err;
-      console.log(value);
+      gpio.read(PIN2, function (err, value2) {
+        if (err) throw err;
+        console.log(value1, '-', value2);
+      });
     })
   }, 100);
 });
